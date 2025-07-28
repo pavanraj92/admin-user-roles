@@ -1,81 +1,91 @@
-# Admin Email Template Manager
+# Admin User Role Manager
 
-This package provides an Admin Email Template Manager for managing email templates within your application.
+This Laravel module provides a simple CRUD (Create, Read, Update, Delete) interface for managing basic website configuration user roles. It enables administrators to easily control and update core user roles used throughout the application.
+
+---
 
 ## Features
 
-- Create new emails
-- View a list of existing emails
-- Update email details
-- Delete emails
+- User Role Management: Create, edit, and delete roles
+- Search and filter support
 
-## Usage
+---
 
-1. **Create**: Add a new email with name and description.
-2. **Read**: View all emails in a paginated list.
-3. **Update**: Edit email information.
-4. **Delete**: Remove emails that are no longer needed.
+## Requirements
 
-## Example Endpoints
 
-| Method | Endpoint           | Description           |
-|--------|-------------------|-----------------------|
-| GET    | `/emails`     | List all emails   |
-| POST   | `/emails`     | Create a new category |
-| GET    | `/emails/{id}`| Get category details  |
-| PUT    | `/emails/{id}`| Update a category     |
-| DELETE | `/emails/{id}`| Delete a category     |
+- PHP >=8.2
+- Laravel Framework >= 12.x
 
-## Update `composer.json`
+---
 
-Add the following to your `composer.json` to use the package from a local path:
+## Installation
+
+### 1. Add Git Repository to `composer.json`
 
 ```json
 "repositories": [
     {
         "type": "vcs",
-        "url": "https://github.com/pavanraj92/admin-emails.git"
+        "url": "https://github.com/pavanraj92/admin-user-roles.git"
     }
 ]
 ```
 
-## Installation
+### 2. Require the package via Composer
+    ```bash
+    composer require admin/user_roles:@dev
+    ```
 
-```bash
-composer require admin/emails --dev
-```
+### 3. **Publish assets:**
+    ```bash
+    php artisan user_roles:publish --force
+    ```
+---
 
-## Publish Files
+## Usage
 
-After installing, publish the module's migrations, config, views, or other assets:
+1. **Create**: Add new website user roles such as name and status.
+2. **Read**: View all current user roles in a user-friendly admin panel.
+3. **Update**: Edit existing website configuration user roles.
+4. **Delete**: Remove user roles that are no longer required.
 
-```bash
-php artisan vendor:publish --tag=email
+### Admin Panel Routes
 
-## CRUD Example
+| Method | Endpoint              | Description                          |
+|--------|-----------------------|--------------------------------------|
+| GET    | `/user_roles`         | List all website user roles          |
+| POST   | `/user_roles`         | Create new website user role         |
+| GET    | `/user_roles/{id}`    | Get details of a specific user role  |
+| PUT    | `/user_roles/{id}`    | Update a website user role           |
+| DELETE | `/user_roles/{id}`    | Delete a website user role           |
+
+---
+
+## Protecting Admin Routes
+
+Protect your admin user roles routes using the provided middleware:
 
 ```php
-// Creating a new email template
-$template = new EmailTemplate();
-$template->title = 'Welcome Email';
-$template->subject = 'Welcome to Our Service';
-$template->description = '<p>Hello {{user_name}}, welcome!</p>';
-$template->save();
-
-// Updating an email template
-$template = EmailTemplate::find(1);
-$template->subject = 'Updated Subject';
-$template->save();
-
-// Deleting an email template
-$template = EmailTemplate::find(1);
-$template->delete();
+Route::middleware(['web','admin.auth'])->group(function () {
+    // Admin user roles routes here
+});
 ```
+---
 
-## Customization
+## Database Table
 
-You can customize views, routes, and permissions by editing the configuration file.
+- `user_roles` - Stores setitngs information
+---
+
+## Configuration
+
+Edit the `config/user_role.php` file to customize module user roles.
+
+---
 
 ## License
 
-MIT license
+This package is open-sourced software licensed under the MIT license.
+
+ 
