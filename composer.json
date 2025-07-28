@@ -1,0 +1,22 @@
+{
+    "name": "admin/user_roles",
+    "description": "Define and manage user roles to organize responsibilities, and access levels across the application.",
+    "type": "library",
+    "version": "1.0.0",  
+    "license": "MIT",
+    "autoload": {
+      "psr-4": {
+        "admin\\user_roles\\": "src/"
+      }
+    },
+    "extra": { 
+      "laravel": {
+        "providers": [
+          "admin\\user_roles\\UserRoleServiceProvider"
+        ]
+      }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+  }
+  
