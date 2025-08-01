@@ -99,16 +99,21 @@
                                                         : '—' }}
                                                 </td>
                                                 <td style="width: 10%;">
+                                                    @admincan('user_roles_manager_view')
                                                     <a href="{{ route('admin.user_roles.show', $user_role) }}" 
                                                         data-toggle="tooltip"
                                                         data-placement="top"
                                                         title="View this record"
                                                         class="btn btn-warning btn-sm"><i class="mdi mdi-eye"></i></a>
+                                                    @endadmincan
+                                                    @admincan('user_roles_manager_edit') 
                                                     <a href="{{ route('admin.user_roles.edit', $user_role) }}"
                                                         data-toggle="tooltip"
                                                         data-placement="top"
                                                         title="Edit this record"
                                                         class="btn btn-success btn-sm"><i class="mdi mdi-pencil"></i></a>
+                                                    @endadmincan
+                                                    @admincan('user_roles_manager_delete')
                                                     <a href="javascript:void(0)" 
                                                         data-toggle="tooltip" 
                                                         data-placement="top"
@@ -117,6 +122,7 @@
                                                         data-text="Are you sure you want to delete this record?"                                                    
                                                         data-method="DELETE"
                                                         class="btn btn-danger btn-sm delete-record" ><i class="mdi mdi-delete"></i></a>
+                                                    @endadmincan
                                                 </td>
                                             </tr>
                                             @php
