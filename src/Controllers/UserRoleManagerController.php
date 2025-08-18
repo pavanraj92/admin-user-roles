@@ -92,6 +92,17 @@ class UserRoleManagerController extends Controller
     public function destroy(UserRole $user_role)
     {
         try {
+            $isAssigned = \DB::table('users')
+                ->where('role_id', $user_role->id)
+                ->whereNull('deleted_at')
+                ->exists();
+
+            if ($isAssigned) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'This role is assigned to active users and cannot be deleted.'
+                ], 400);
+            }
             $user_role->delete();
             return response()->json(['success' => true, 'message' => 'Record deleted successfully.']);
         } catch (\Exception $e) {
