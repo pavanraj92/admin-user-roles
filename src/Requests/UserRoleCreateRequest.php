@@ -3,6 +3,7 @@
 namespace admin\user_roles\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserRoleCreateRequest extends FormRequest
 {
@@ -12,7 +13,13 @@ class UserRoleCreateRequest extends FormRequest
     public function rules(): array
     {
         return [                   
-            'name' => 'required|string|min:3|max:255|unique:user_roles,name',
+           'name' => [
+                'required',
+                'string',
+                'min:3',
+                'max:255',
+                Rule::unique('user_roles', 'name')->whereNull('deleted_at'), // ✅ Ignore soft deleted
+            ],
             'status' => 'required|in:0,1',
         ];
     }
