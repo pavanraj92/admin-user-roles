@@ -26,6 +26,11 @@ class UserRoleServiceProvider extends ServiceProvider
             $this->loadViewsFrom(base_path('Modules/UserRoles/resources/views'), 'user_roles-module');
         }
 
+           // Also merge config from published module if it exists
+        if (file_exists(base_path('Modules/UserRoles/config/user_role.php'))) {
+            $this->mergeConfigFrom(base_path('Modules/UserRoles/config/user_role.php'), 'user_role.constants');
+        }
+
         // Only publish automatically during package installation, not on every request
         // Use 'php artisan user_roles:publish' command for manual publishing
         // $this->publishWithNamespaceTransformation();
