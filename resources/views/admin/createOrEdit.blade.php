@@ -5,7 +5,8 @@
 @section('page-title', 'Create User Role')
 
 @section('breadcrumb')
-    <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.user_roles.index') }}">Manage User Roles</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.user_roles.index') }}">Manage User
+            Roles</a></li>
     <li class="breadcrumb-item active" aria-current="page">Create User Role</li>
 @endsection
 
@@ -15,14 +16,15 @@
         <div class="row">
             <div class="col-12">
                 <div class="card card-body">
-                    <form action="{{ isset($user_role) ? route('admin.user_roles.update', $user_role->id) : route('admin.user_roles.store') }}"
-                        method="POST" id="userRoleForm"  enctype="multipart/form-data">
+                    <form
+                        action="{{ isset($user_role) ? route('admin.user_roles.update', $user_role->id) : route('admin.user_roles.store') }}"
+                        method="POST" id="userRoleForm" enctype="multipart/form-data">
                         @if (isset($user_role))
                             @method('PUT')
                         @endif
                         @csrf
                         <div class="row">
-                            <div class="col-md-6">                                
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Name<span class="text-danger">*</span></label>
                                     <input type="text" name="name" class="form-control alphabets-only"
@@ -36,8 +38,12 @@
                                 <div class="form-group">
                                     <label>Status<span class="text-danger">*</span></label>
                                     <select name="status" class="form-control select2" required>
-                                        <option value="1" {{ (($user_role?->status ?? old('status')) == '1') ? 'selected' : '' }}>Active</option>
-                                        <option value="0" {{ (($user_role?->status ?? old('status')) == '0') ? 'selected' : '' }}>InActive</option>
+                                        @foreach (config('user_role.constants.status', []) as $key => $label)
+                                            <option value="{{ $key }}"
+                                                {{ (isset($user_role) && (string) $user_role?->status === (string) $key) || old('status') === (string) $key ? 'selected' : '' }}>
+                                                {{ $label }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                     @error('status')
                                         <div class="text-danger validation-error">{{ $message }}</div>
@@ -62,7 +68,7 @@
     <!-- Select2 CSS & JS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- Custom CSS for the user_role -->
-    <link rel="stylesheet" href="{{ asset('backend/custom.css') }}">           
+    <link rel="stylesheet" href="{{ asset('backend/custom.css') }}">
 @endpush
 
 @push('scripts')
@@ -78,7 +84,7 @@
 
             $.validator.addMethod(
                 "alphabetsOnly",
-                function (value, element) {
+                function(value, element) {
                     return this.optional(element) || /^[a-zA-Z\s]+$/.test(value);
                 },
                 "Please enter letters only"
@@ -121,7 +127,8 @@
                 if (input.files && input.files[0]) {
                     const reader = new FileReader();
                     reader.onload = function(e) {
-                        preview.html('<img src="' + e.target.result + '" style="max-width:200px; max-height:120px;" />');
+                        preview.html('<img src="' + e.target.result +
+                            '" style="max-width:200px; max-height:120px;" />');
                     }
                     reader.readAsDataURL(input.files[0]);
                 }

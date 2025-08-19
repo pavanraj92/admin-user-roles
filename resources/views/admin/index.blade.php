@@ -26,14 +26,18 @@
                                         value="{{ app('request')->query('role') }}" placeholder="Enter role">                                   
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                           <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="status">Status</label>
                                     <select name="status" id="status" class="form-control select2">
                                         <option value="">All</option>
-                                        <option value="0" {{ app('request')->query('status') == '0' ? 'selected' : '' }}>Inactive</option>
-                                        <option value="1" {{ app('request')->query('status') == '1' ? 'selected' : '' }}>Active</option>
-                                    </select>                                   
+                                        @foreach (config('user_role.constants.status') as $key => $label)
+                                            <option value="{{ $key }}"
+                                                {{ app('request')->query('status') === (string) $key ? 'selected' : '' }}>
+                                                {{ $label }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-auto mt-1 text-right">
