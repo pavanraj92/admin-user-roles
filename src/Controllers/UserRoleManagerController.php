@@ -100,7 +100,7 @@ class UserRoleManagerController extends Controller
             if ($isAssigned) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'This role is assigned to active users and cannot be deleted.'
+                    'message' => 'This role is assigned to '.$user_role->name.' and cannot be deleted.'
                 ], 400);
             }
             $user_role->delete();
