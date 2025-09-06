@@ -19,16 +19,17 @@ class UserRoleServiceProvider extends ServiceProvider
             __DIR__ . '/../resources/views'      // Package views as fallback
         ], 'user_role');
 
-        $this->mergeConfigFrom(__DIR__.'/../config/user_role.php', 'user_role.constants');
+        // Load published module config first (if it exists), then fallback to package config
+        if (file_exists(base_path('Modules/UserRoles/config/user_role.php'))) {
+            $this->mergeConfigFrom(base_path('Modules/UserRoles/config/user_role.php'), 'user_role.constants');
+        } else {
+            // Fallback to package config if published config doesn't exist
+            $this->mergeConfigFrom(__DIR__.'/../config/user_role.php', 'user_role.constants');
+        }
         
         // Also register module views with a specific namespace for explicit usage
         if (is_dir(base_path('Modules/UserRoles/resources/views'))) {
             $this->loadViewsFrom(base_path('Modules/UserRoles/resources/views'), 'user_roles-module');
-        }
-
-           // Also merge config from published module if it exists
-        if (file_exists(base_path('Modules/UserRoles/config/user_role.php'))) {
-            $this->mergeConfigFrom(base_path('Modules/UserRoles/config/user_role.php'), 'user_role.constants');
         }
 
         // Only publish automatically during package installation, not on every request
@@ -37,6 +38,7 @@ class UserRoleServiceProvider extends ServiceProvider
         
         // Standard publishing for non-PHP files
         $this->publishes([
+            __DIR__ . '/../config/' => base_path('Modules/UserRoles/config/'),
             __DIR__ . '/../resources/views' => base_path('Modules/UserRoles/resources/views/'),
         ], 'user_role');
        
