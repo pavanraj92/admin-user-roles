@@ -98,6 +98,11 @@ class PublishUserRolesModuleCommand extends Command
             $content = str_replace('use admin\\user_roles\\Models\\UserRole;', 'use Modules\\UserRoles\\app\\Models\\UserRole;', $content);
             $content = str_replace('use admin\\user_roles\\Requests\\UserRoleCreateRequest;', 'use Modules\\UserRoles\\app\\Http\\Requests\\UserRoleCreateRequest;', $content);
             $content = str_replace('use admin\\user_roles\\Requests\\UserRoleUpdateRequest;', 'use Modules\\UserRoles\\app\\Http\\Requests\\UserRoleUpdateRequest;', $content);
+            $content = str_replace(
+                'use admin\users\Models\UserRole;',
+                'use Modules\\Users\\app\\Models\\UserRole;',
+                $content
+            );
         }
 
         return $content;

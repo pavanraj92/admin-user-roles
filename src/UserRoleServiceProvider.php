@@ -169,6 +169,11 @@ class UserRoleServiceProvider extends ServiceProvider
             $content
         );
 
+        $content = str_replace(
+            'use admin\users\Models\UserRole;',
+            'use Modules\\Users\\app\\Models\\UserRole;',
+            $content
+        );
         return $content;
     }
 
@@ -221,4 +226,3 @@ class UserRoleServiceProvider extends ServiceProvider
         return $content;
     }
 }
-
